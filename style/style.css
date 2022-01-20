@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=ABeeZee&family=Alice&display=swap');
+
+:root{
+    --black-shade: #282727;
+    /* --green-shade: #4c8b5a;
+    --blue-shade: #cce9eb;
+    --red-shade: #d0a7a7; */
+}
+
+html {
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: 'ABeeZee', sans-serif;
+    /* font-family: 'Alice', serif; */
+    margin: 0;
+    padding: 0;
+}
+
+#container{
+    display: flex;
+    width: 90vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#control-panel{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100vh;
+}
+
+input[type="button"]{
+    font-family: 'ABeeZee', sans-serif;
+    border: none;
+    color: white;
+    background-color: var(--black-shade);
+}
+
+img{
+    height: 20px;
+}
+
+#game-board{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 500px;
+    height: 500px;
+    border: solid 1px black;
+}
+
+.square{
+    border: solid 1px black;
+    width: 150px;
+    height: 150px;
+}
