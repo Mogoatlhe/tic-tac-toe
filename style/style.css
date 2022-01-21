@@ -2,9 +2,8 @@
 
 :root{
     --black-shade: #282727;
-    /* --green-shade: #4c8b5a;
-    --blue-shade: #cce9eb;
-    --red-shade: #d0a7a7; */
+    --blue-shade: #3dc4f3;
+    /* --red-shade: #d0a7a7; */
 }
 
 html {
@@ -19,24 +18,56 @@ html {
 
 body{
     font-family: 'ABeeZee', sans-serif;
-    /* font-family: 'Alice', serif; */
     margin: 0;
     padding: 0;
 }
 
 #container{
     display: flex;
-    width: 90vw;
+    width: 100vw;
     height: 100vh;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 #control-panel{
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: flex-end;
+    padding: 10vh 0;
+    padding-right: 4vw;
+}
+
+#control-panel, #results-feedback-container{
     height: 100vh;
+    width: 20vw;
+}
+
+form{
+    width: inherit;
+    height: 25vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 1.2rem;
+}
+
+span{
+    color: var(--blue-shade);
+}
+
+#player-name{
+    border: none;
+    border-bottom: solid 1px var(--black-shade);
+    color: var(--blue-shade);
+    font-size: 1.2rem;
+}
+
+#submit-container{
+    display: flex;
+    justify-content: end;
+    width: inherit;
 }
 
 input[type="button"]{
@@ -44,10 +75,38 @@ input[type="button"]{
     border: none;
     color: white;
     background-color: var(--black-shade);
+    width: 10vw;
+    height: 8vh;
+    font-size: 1rem;
+}
+
+#socials-container{
+    color: var(--black-shade);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.3vh;
+    font-family: 'Alice', serif;
+    font-size: 1.3rem;
+    width: 10vw;
+}
+
+#socials-image-container{
+    display: flex;
+    width: inherit;
+    justify-content: space-around;
 }
 
 img{
     height: 20px;
+}
+
+a{
+    text-decoration: none;
+}
+
+#game-board, .square{
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.5);
 }
 
 #game-board{
@@ -57,11 +116,11 @@ img{
     align-items: center;
     width: 500px;
     height: 500px;
-    border: solid 1px black;
+    border: solid 1px var(--black-shade);
 }
 
 .square{
-    border: solid 1px black;
+    border: solid 1px var(--black-shade);
     width: 150px;
     height: 150px;
 }
