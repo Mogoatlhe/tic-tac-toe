@@ -128,4 +128,19 @@ a{
     border: solid 1px var(--black-shade);
     width: 150px;
     height: 150px;
+    padding: 10px;
+}
+
+.add-cross, .add-circle{
+    background-origin: content-box;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.add-cross{
+    background-image: url("./../images/cross.png");
+}
+
+.add-circle{
+    background-image: url("./../images/circle.png");
 }
