@@ -129,12 +129,14 @@ a{
     width: 150px;
     height: 150px;
     padding: 10px;
+    cursor: pointer;
 }
 
 .add-cross, .add-circle{
     background-origin: content-box;
     background-size: cover;
     background-repeat: no-repeat;
+    cursor: not-allowed;
 }
 
 .add-cross{
