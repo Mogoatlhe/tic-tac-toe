@@ -3,19 +3,31 @@
 const Player = (name) => {
     const getName = () => name;
 
-    return { name };
+    return { getName };
 }
 
 const GameBoard = (() => {
     const board = [];
 
-    let results = null;
-    const squares = document.getElementsByClassName("square");
-    const displayResults = document.getElementById("results-feedback");
-
     const getBoard = () => board;
 
-    const resetBoard = () => board = [];
+    const resetBoard = () => {
+        const squares = document.getElementsByClassName("square");
+
+        [...squares].map(square => {
+            if(board.length !== 0){
+                board.pop();
+            }
+            
+            square.classList.remove("add-circle");
+            square.classList.remove("add-cross");
+        });
+
+        return board;
+        
+    };
+
+    const addToBoard = (value) => board.push(Number(value));
     
     const sortArray = () => {
 
@@ -54,6 +66,8 @@ const GameBoard = (() => {
 
         second = first + 2;
         third = second + 2;
+
+        sortArray();
 
         while(third <= board.length - 1){
             winner = checkWinner(board[first], board[second], board[third]);
@@ -119,9 +133,29 @@ const GameBoard = (() => {
 
     };
 
+    return { checkWinningPossibilities, addToBoard, resetBoard, getBoard }
+
+})();
+
+const DisplayController = (() => {
+
+    const restart = document.getElementById("restart");
+
+    restart.addEventListener("click", GameBoard.resetBoard);
+
+})();
+
+const Play = (() => {
+
+    let results = null;
+    const squares = document.getElementsByClassName("square");
+    const displayResults = document.getElementById("results-feedback");
+
     (() => {
         [...squares].map((square) => {
             square.addEventListener("click", () => {
+
+                let board = GameBoard.getBoard();
 
                 if (square.classList.contains("add-circle") || square.classList.contains("add-cross")
                     || results !== null) {
@@ -133,10 +167,10 @@ const GameBoard = (() => {
                 } else {
                     square.classList.add("add-cross");
                 }
-                board.push(Number(square.dataset.position));
+
+                board = GameBoard.addToBoard(square.dataset.position);
 
                 if (board.length > 4) {
-                    sortArray();
                     results = checkWinningPossibilities();
 
                     if(results !== null){
@@ -153,9 +187,5 @@ const GameBoard = (() => {
             });
         });
     })();
-
-})();
-
-const DisplayController = (() => {
 
 })();
