@@ -8,9 +8,15 @@ const Player = (name) => {
 
 const GameBoard = (() => {
     const board = [];
+
     let results = null;
     const squares = document.getElementsByClassName("square");
+    const displayResults = document.getElementById("results-feedback");
 
+    const getBoard = () => board;
+
+    const resetBoard = () => board = [];
+    
     const sortArray = () => {
 
         let start;
@@ -34,24 +40,57 @@ const GameBoard = (() => {
             }
         }
 
-    }
+    };
 
-    const checkWinner = () => {
+    const checkWinningPossibilities = () => {
+        let winner = null;
+        let first, second, third;
+
+        first = 0;
+
+        if(board.length % 2 === 0){
+            first = 1;
+        }
+
+        second = first + 2;
+        third = second + 2;
+
+        while(third <= board.length - 1){
+            winner = checkWinner(board[first], board[second], board[third]);
+            
+            if(winner !== null){
+                return winner;
+            }
+            
+            third += 2;
+
+            if(third > board.length - 1){
+                if(second + 2 !== third - 2){
+                    second += 2;
+                    third = second + 2;
+                }else if(first + 2 !== second){
+                    first += 2;
+                    second = first + 2;
+                    third = second + 2;
+                }
+            }
+
+        }
+
+        return winner;
+    };
+
+    const checkWinner = (first, second, third) => {
 
         let i = 0;
-        let first, second, third;
         const length = board.length;
-        let winner = "player one wins";
+        let winner = "one";
 
         if (length % 2 === 0) {
             i = 1;
-            winner = "player two wins";
+            winner = "two";
         }
-
-        first = board[i];
-        second = board[i + 2];
-        third = board[i + 4];
-
+        
         if (first === 0) {
             if (second == 1 && third == 2) {
                 return winner;
@@ -77,11 +116,8 @@ const GameBoard = (() => {
         }
 
         return null;
-        // 0 = 1 3 4  1 = 4  2 = 4 5  3 = 4  6 = 7
-        //     | | |      |      | |      |      |
-        //     2 6 8      7      6 8      5      8
 
-    }
+    };
 
     (() => {
         [...squares].map((square) => {
@@ -101,10 +137,16 @@ const GameBoard = (() => {
 
                 if (board.length > 4) {
                     sortArray();
-                    results = checkWinner();
+                    results = checkWinningPossibilities();
 
                     if(results !== null){
-                        console.log(results);
+                        if(results === "draw"){
+                            displayResults.textContent = results;
+                        }else if(results === "one"){
+                            displayResults.textContent = `player ${results} wins`;
+                        }else if(results === "two"){
+                            displayResults.textContent = `player ${results} wins`;
+                        }
                     }
                 }
 
