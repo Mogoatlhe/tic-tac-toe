@@ -3,7 +3,7 @@
 :root{
     --black-shade: #282727;
     --blue-shade: #3dc4f3;
-    /* --red-shade: #d0a7a7; */
+    --red-shade: #FE605D;
 }
 
 html {
@@ -46,22 +46,31 @@ body{
 
 form{
     width: inherit;
-    height: 25vh;
+    height: 30vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     font-size: 1.2rem;
+    gap: 30px;
+}
+
+.hide-form{
+    display: none;
 }
 
 span{
     color: var(--blue-shade);
 }
 
-#player-name{
+#player-one-name, #player-two-name{
     border: none;
     border-bottom: solid 1px var(--black-shade);
     color: var(--blue-shade);
     font-size: 1.2rem;
+}
+
+#player-two-label span, #player-two-name{
+    color: var(--red-shade);
 }
 
 #submit-container{
@@ -106,6 +115,10 @@ img{
     height: 20px;
 }
 
+img:hover{
+    height: 25px;
+}
+
 a{
     text-decoration: none;
 }
@@ -122,6 +135,11 @@ a{
     width: 500px;
     height: 500px;
     border: solid 1px var(--black-shade);
+    opacity: 0.4;
+}
+
+.show-game-board{
+    opacity: 1 !important;
 }
 
 .square{
@@ -129,14 +147,22 @@ a{
     width: 150px;
     height: 150px;
     padding: 10px;
+    cursor: not-allowed;
+}
+
+.change-cursor{
     cursor: pointer;
+}
+
+.change-cursor:hover{
+    height: 155px;
+    width: 155px;
 }
 
 .add-cross, .add-circle{
     background-origin: content-box;
     background-size: cover;
     background-repeat: no-repeat;
-    cursor: not-allowed;
 }
 
 .add-cross{
@@ -145,4 +171,12 @@ a{
 
 .add-circle{
     background-image: url("./../images/circle.png");
+}
+
+#results-feedback-container{
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    padding-left: 2vw;
 }

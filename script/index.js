@@ -9,16 +9,17 @@ const Player = (name) => {
 const GameBoard = (() => {
     const board = [];
 
-    const getBoard = () => board;
+    const getBoard = () => [...board];
 
     const resetBoard = () => {
+        document.getElementById("results-feedback").textContent = "";
         const squares = document.getElementsByClassName("square");
 
         [...squares].map(square => {
             if(board.length !== 0){
                 board.pop();
             }
-            
+
             square.classList.remove("add-circle");
             square.classList.remove("add-cross");
         });
@@ -27,7 +28,19 @@ const GameBoard = (() => {
         
     };
 
-    const addToBoard = (value) => board.push(Number(value));
+    const addToBoard = (value) => {
+        board.push(Number(value));
+        return [...board];
+    };
+
+    const showGameBoard = () => {
+        const gameBoard = document.getElementById("game-board");
+        const squares = document.getElementsByClassName("square");
+
+        gameBoard.classList.add("show-game-board");
+
+        [...squares].map(square => square.classList.add("change-cursor"));
+    }
     
     const sortArray = () => {
 
@@ -91,6 +104,10 @@ const GameBoard = (() => {
 
         }
 
+        if(winner === null && board.length === 9){
+            winner = "draw";
+        }
+
         return winner;
     };
 
@@ -125,31 +142,57 @@ const GameBoard = (() => {
             return winner;
         } else if (first === 6 && second === 7 && third === 8) {
             return winner;
-        }else if (length === 9) {
-            return "draw";
         }
 
         return null;
 
     };
 
-    return { checkWinningPossibilities, addToBoard, resetBoard, getBoard }
+    return { checkWinningPossibilities, addToBoard, resetBoard, getBoard, showGameBoard }
 
 })();
 
 const DisplayController = (() => {
 
+    let results = null;
+    let playerOne = null;
+    let playerTwo = null;
+   
+    const submit = document.getElementById("submit");
     const restart = document.getElementById("restart");
-
+    const squares = document.getElementsByClassName("square");
+    const playerOneInput = document.getElementById("player-one-name");
+    const playerTwoInput = document.getElementById("player-two-name");
+    const displayResults = document.getElementById("results-feedback");
+   
     restart.addEventListener("click", GameBoard.resetBoard);
 
-})();
+    playerOneInput.value = "";
+    playerTwoInput.value = "";
+    
+    const assignPlayerNames = () => {
 
-const Play = (() => {
+        if(playerOneInput.value === null || playerTwoInput.value === null ||
+            playerOneInput.value.length === 0 || playerTwoInput.value.length === 0){
+            if(playerOneInput.value === null || playerOneInput.value.length === 0){
+                playerOneInput.focus();
+            }else{
+                playerTwoInput.focus();
+            }
 
-    let results = null;
-    const squares = document.getElementsByClassName("square");
-    const displayResults = document.getElementById("results-feedback");
+            return false;
+        }
+
+        playerOne = Player(playerOneInput.value);
+        playerTwo = Player(playerTwoInput.value);
+
+        GameBoard.showGameBoard();
+        GameBoard.resetBoard();
+
+        return true;
+    };
+
+    submit.addEventListener("click", assignPlayerNames);
 
     (() => {
         [...squares].map((square) => {
@@ -157,9 +200,16 @@ const Play = (() => {
 
                 let board = GameBoard.getBoard();
 
+                square.classList.remove("change-cursor");
                 if (square.classList.contains("add-circle") || square.classList.contains("add-cross")
-                    || results !== null) {
+                    || displayResults.textContent !== "") {
                     return;
+                }
+
+                if(playerOne === null || playerTwo == null){
+                    if(!assignPlayerNames()){
+                        return;
+                    }
                 }
 
                 if (board.length % 2 === 0) {
@@ -171,21 +221,22 @@ const Play = (() => {
                 board = GameBoard.addToBoard(square.dataset.position);
 
                 if (board.length > 4) {
-                    results = checkWinningPossibilities();
+                    results = GameBoard.checkWinningPossibilities();
 
                     if(results !== null){
                         if(results === "draw"){
                             displayResults.textContent = results;
                         }else if(results === "one"){
-                            displayResults.textContent = `player ${results} wins`;
+                            displayResults.textContent = `${playerOne.getName()} wins`;
                         }else if(results === "two"){
-                            displayResults.textContent = `player ${results} wins`;
+                            displayResults.textContent = `${playerTwo.getName()} wins`;
                         }
+                        results = null;
                     }
                 }
 
             });
         });
     })();
-
+    
 })();
