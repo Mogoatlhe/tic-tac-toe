@@ -11,6 +11,12 @@ const GameBoard = (() => {
 
     const getBoard = () => [...board];
 
+    const disableCursor = () => {
+        const squares = document.getElementsByClassName("square");
+
+        [...squares].map(square => square.classList.remove("change-cursor"));
+    }
+
     const resetBoard = () => {
         document.getElementById("results-feedback").textContent = "";
         const squares = document.getElementsByClassName("square");
@@ -22,6 +28,7 @@ const GameBoard = (() => {
 
             square.classList.remove("add-circle");
             square.classList.remove("add-cross");
+            square.classList.add("change-cursor");
         });
 
         return board;
@@ -148,7 +155,7 @@ const GameBoard = (() => {
 
     };
 
-    return { checkWinningPossibilities, addToBoard, resetBoard, getBoard, showGameBoard }
+    return { checkWinningPossibilities, addToBoard, resetBoard, getBoard, showGameBoard, disableCursor }
 
 })();
 
@@ -203,6 +210,7 @@ const DisplayController = (() => {
                 square.classList.remove("change-cursor");
                 if (square.classList.contains("add-circle") || square.classList.contains("add-cross")
                     || displayResults.textContent !== "") {
+                    
                     return;
                 }
 
@@ -231,6 +239,9 @@ const DisplayController = (() => {
                         }else if(results === "two"){
                             displayResults.textContent = `${playerTwo.getName()} wins`;
                         }
+
+                        GameBoard.disableCursor();
+
                         results = null;
                     }
                 }
